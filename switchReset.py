@@ -29,8 +29,8 @@ class ConnectionWorker:
     def run(self, ip, ports, user, password, dev_user, dev_pass, cmds):
         for port in ports:
             try:
-                # Prefix each selected port internally with '51'
-                internal_port = int(f"51{port}")
+                # Prefix each selected port internally with '51' and zero-pad to 2 digits
+                internal_port = int(f"51{port:02d}")
                 self.log(f"[INFO] Connecting to {ip}:{internal_port}...")
                 ssh = paramiko.SSHClient()
                 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -71,10 +71,10 @@ class ConnectionWorker:
             except Exception as e:
                 self.log(f"[ERROR] Port {internal_port}: {e}")
 
-class DiscordStyleApp(ctk.CTk):
+class ResetTool(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.title("Device CLI Executor – Discord Style")
+        self.title("Device CLI Executor")
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("dark-blue")
 
@@ -204,6 +204,6 @@ class DiscordStyleApp(ctk.CTk):
         ).start()
 
 if __name__ == "__main__":
-    app = DiscordStyleApp()
+    app = ResetTool()
     app.geometry("1400x800")
     app.mainloop()
